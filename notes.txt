@@ -1,0 +1,253 @@
+why map() is used to inerate array instead of for Each()
+---------------------------------------------------------
+=> JSX needs an array of items to render,for each() doest not return
+anyting (i.e it returns undefined) map() returns an array
+
+
+fake Json website => https://jsonplaceholder.typicode.com
+https://jsonplaceholder.typicode.com/user
+
+Object.keys()
+Object.value()
+
+forceUpdate
+------------
+-declaring class variables/function variables is always a bas idea.
+-can be used dor the below 2 use cases:
+    setting and clearing timeouts
+    Storing frequently-reference values
+
+
+-React components will only re-render when there are changes to props or state
+-Updating the class/funciton variable does not trigger a re-render.
+-Its our responsiblitiy of triggering the re-render when our class data changes 
+-Normally we should try to avoid all uses of forceUpdate() and only read from 
+    this.props and this.state in render()
+-IN class components, this.forceUpdate() is used to force a re-render.
+-In functional components,there is no concept of force re-render.
+
+ 
+props
+-------
+-props are iuputs to components.
+-Props stand for properties and is a special keyword in React.
+-Attributes on Components get converted into an object called props.
+-Helps to pass custom data to a component.
+-props are used to pass data and methods from a parent component to a child component.
+-data with props are being passed in a uni-direcatinal flow.(one way from 
+parend to child).
+-We can pass props to any component as we declare attributes for anny HTML tag 
+    <ChildComponent someAttribute={value} anotherAttribute={value}/>
+-React props passed with just their name have a value of true.
+    <myComponent showTitle={true}></myComponent>
+-The props can be acccessed as shown below
+ this.props.propName; (Class Component)
+ props.propName;    (Functional Component)
+-They are immutable.data comming from the parent should not be changed by
+    child components .we will get an error if you try to change their value.
+
+
+
+Props De-structuring
+---------------------
+
+-Its a JavaScript feature that allows us to extract multiple pieces of data from an array or object and assign them to their own variables.
+-we de-structure props in the render() function.(class component)
+-Improves readabiliry.
+-we can get rid of props/this.props in front of each property.
+-ex: 
+    let {pId,name,price} = this.props.product;
+
+-props de-structuring in function component
+ export default function Greet ({name,msg})
+
+
+
+
+PropTypes
+-----------
+-React has some build-in Typechecking abilites.
+-To run typechecking on the props for a components,we can assign the special
+    propTypes property.
+-PropTypes exports a range of validators that can be used to make sure the data
+    the component receive is valid.
+-When an invalid value is provided for a prop, a warning will shown in the browser console.
+-For performance reasons,propTypes is only checked in development mode.not in production.
+
+    1.import PropTypes from 'prop-types';
+    2. ComponentName.propTypes={
+        variableName:PropTypes.string
+    };
+
+
+
+Requiring Props
+----------------
+-If prop values are not passed to a certain component,no error will be 
+    thrown.Instead,within the component that prop will have a value of undefined.
+-Apart from specifying the type oif the prop that can be passed to the component,
+ we can also make sure the prop is always provided to the component by chaining 
+ isRequird at the end of the prop validator.
+
+ Student.propTypes={
+    name:PropTypes.string.isRequired, // Required Props
+    age:PropTypes.number // Optional Prop
+ }
+
+
+Props.children
+--------------
+-props.children represents the content between the tags of a component.
+-props.children can be an array or a single item.
+-props.children is available on every component.
+-It contains the content between the opening and closing tags of a component.
+-<Welcome>Hello world!!!</Welcome>
+-The string hello world! is available in props.children in the welcome component
+-class Welcome extends React.Component{
+    render(){
+        return <p>{this.props.children}</p>
+    }
+}
+
+
+Ensuring single child 
+----------------------
+-We can use PropTypes.element to enforce that only a single child can be passed
+ to a component as children.
+-If we try to pass more than 1 child to the component,we will get an error.
+Ex:
+    Greet.propTypes={
+        children:PropTypes.element
+    };
+
+
+ Default props
+ --------------
+ - default Props allows to set default values fro component props.
+ - default props are usefull when you call components from different views with 
+   fixed props.but in views you need to pass deifferent view 
+-Functional Componet & destructuring 
+    export default function Greet({name,msg='good morning'})
+
+Class component
+ex:  
+    Greet.defaultProps={
+        msg:'this is my default message'
+    }
+
+
+
+Props Drilling
+---------------
+-Props drilling is the process in a react app where props are passed from 
+    one component to another by going through other parts that do not need the data,but only
+    help in passing it through the intermediate components.
+-The problem with this approach is that most of the components throught which
+    this data is passed have no actual need for this data.
+-as the components are forced to take in unrelated data and pass it to the next 
+    component,which in turn passes it,and so , until it reaches its 
+    destination.This can cause major isses with component resusability and app performance.
+-This problem can be avoided by using concepts like 'Context Api' & 'REDUX'
+ 
+
+
+States
+-------
+-the state of a component is an object the holds some information
+    the may change over te lifetime of the component.
+-whenever the state object changes,react will re-render the component.
+    render() gets re-invoked.
+
+
+
+Note
+------
+-setState() actions are asynchronous. setState() doesn't immediately mutate this.state.
+-React may group multiple setState() calles in to a group update for better performance
+-When we want to update the state based on the previous State value,
+we need to pass a function as as arguement to setState() instead passing an object.
+ex: 
+    this.setState({value:this.state.value+1}); //wrong
+    this.setState(prevState=>({value:prevState.value+1})); //right
+
+
+
+
+immutable  unable to be changed.
+mutable - able to be change
+
+
+props                               vs                 state
+-----------------------------------------------------------------------------------
+1.Props are immutable.                      1. State is mutable/modifiable
+2.Pass data from parent component           2. contains own data & changes over time
+  to child component
+3.communicate between components            3. Rendering dynamic changes
+4.props - Functional Component              4. useState()      - Functional Component
+  this.props - class Component                 this.state={}   - Class Component
+
+
+How to use sweetalert
+------------------------
+https://sweetalert2.github.io/#examples
+Or 
+grab from jsdelivr CDN 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+1.npm install sweetalert2
+2.import Swal from 'sweetalert2'
+3.on button click call a function,which has the below code
+    Swal.fire(
+    'Good job!',                // title
+    'You clicked the button!',  // content
+    'success'                   // icon
+    )
+
+
+How to use react-modal 
+-----------------------
+Installation
+To install, you can use npm or yarn:
+$ npm install --save react-modal
+$ yarn add react-modal
+
+import Modal from 'react-modal';
+
+const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+
+how to use react-bootstrap modal
+----------------------------------
+1.npm i react-bootstrap bootstrap
+2.import Model from 'react-bootstrap/Model';
+
+
+
+
+Pagination 
+-----------
+1. install the library
+    npm i react-paginate
+
+
+
+Component Communication
+--------------------------
+-> Parent to Child: props
+-> Child to Parent : callback and States
+-> Between Siblings : Combine the above 2
+
+child to parent:
+-----------------
+1. Define a callback in parent which takes teh as a paramenter.
+2. Pass that callback as a prop to the child.
+3. call the callback function using this.props.[callback] in the child,apss in the data as
+the argument
