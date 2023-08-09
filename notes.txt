@@ -251,3 +251,4 @@ child to parent:
 2. Pass that callback as a prop to the child.
 3. call the callback function using this.props.[callback] in the child,apss in the data as
 the argument
+
